@@ -13,7 +13,6 @@ public class SoilLogic : MonoBehaviour {
         TILLED,
         WATTERED
     }
-    
 
 	// Use this for initialization
 	void Start () {

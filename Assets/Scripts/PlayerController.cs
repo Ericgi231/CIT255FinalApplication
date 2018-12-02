@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour {
 
     private CharacterController cc;
 
+    public Texture2D crosshairImage;
+
     // Use this for initialization
     void Start() {
         //lock cursor
@@ -85,5 +87,16 @@ public class PlayerController : MonoBehaviour {
 
         //move player based on momentum
         cc.Move(momentum * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// set ui on load
+    /// </summary>
+    private void OnGUI()
+    {
+        //set cross hair
+        float xMin = (Screen.width / 2) - (crosshairImage.width / 2);
+        float yMin = (Screen.height / 2) - (crosshairImage.height / 2);
+        GUI.DrawTexture(new Rect(xMin, yMin, crosshairImage.width, crosshairImage.height), crosshairImage);
     }
 }
