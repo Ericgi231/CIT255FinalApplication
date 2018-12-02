@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    //params
     public float characterMoveSpeed;
     public float cameraRotationSpeed;
     public float verticalRotationRange;
+    public float jumpHeight;
 
-    private float verticalRotation;
-    private float horizontalRotation;
+    //vars
+    private float verticalRotation = 0;
+    private float horizontalRotation = 0;
 
-    private float xSpeed;
-    private float ySpeed;
-    private float zSpeed;
-
+    private float xVelocity = 0;
+    private float zVelocity = 0;
     private float yVelocity = 0;
 
     private CharacterController cc;
 
     // Use this for initialization
     void Start() {
+        //lock cursor
         Cursor.lockState = CursorLockMode.Locked;
 
-        characterMoveSpeed = 10.0f;
+        //set params
+        characterMoveSpeed = 5.0f;
         cameraRotationSpeed = 2.0f;
         verticalRotationRange = 90.0f;
+        jumpHeight = 4.0f;
 
+        //set character to controll
         cc = GetComponent<CharacterController>();
     }
 
@@ -36,6 +41,9 @@ public class PlayerController : MonoBehaviour {
         UpdatePlayerPosition();
     }
 
+    /// <summary>
+    /// updates the direction the player is looking based on mouse input
+    /// </summary>
     private void UpdateCameraDirection()
     {
         //horizontal
@@ -48,19 +56,34 @@ public class PlayerController : MonoBehaviour {
         Camera.main.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
     }
 
+    /// <summary>
+    /// updates players physical location based on keyboard input
+    /// </summary>
     private void UpdatePlayerPosition()
     {
-        yVelocity += Physics.gravity.y * Time.deltaTime;
-        zSpeed = Input.GetAxis("Vertical") * characterMoveSpeed;
-        xSpeed = Input.GetAxis("Horizontal") * characterMoveSpeed;
-        if (Input.GetButton("Jump") && cc.isGrounded)
+        //set horizontal velocity
+        zVelocity = Input.GetAxis("Vertical") * characterMoveSpeed;
+        xVelocity = Input.GetAxis("Horizontal") * characterMoveSpeed;
+
+        //add sprint
+        if (Input.GetButton("Sprint"))
         {
-            yVelocity = 4;
+            zVelocity = zVelocity * 2;
+            xVelocity = xVelocity * 2;
         }
 
-        Vector3 momentum = new Vector3(xSpeed, yVelocity, zSpeed);
+        //set vertical velocity
+        yVelocity += Physics.gravity.y * Time.deltaTime;
+        if (Input.GetButton("Jump") && cc.isGrounded)
+        {
+            yVelocity = jumpHeight;
+        }
+
+        //combine velocity into momentum
+        Vector3 momentum = new Vector3(xVelocity, yVelocity, zVelocity);
         momentum = transform.rotation * momentum;
 
+        //move player based on momentum
         cc.Move(momentum * Time.deltaTime);
     }
 }
