@@ -27,12 +27,6 @@ public class PlayerController : MonoBehaviour {
         //lock cursor
         Cursor.lockState = CursorLockMode.Locked;
 
-        //set params
-        characterMoveSpeed = 5.0f;
-        cameraRotationSpeed = 2.0f;
-        verticalRotationRange = 90.0f;
-        jumpHeight = 4.0f;
-
         //set character to controll
         cc = GetComponent<CharacterController>();
     }
@@ -41,6 +35,19 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         UpdateCameraDirection();
         UpdatePlayerPosition();
+        ReadOtherPlayerInputs();
+    }
+
+    /// <summary>
+    /// manage input presses from player
+    /// </summary>
+    void ReadOtherPlayerInputs()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameObject flashLight = GameObject.Find("FlashLight");
+            flashLight.GetComponent<Light>().enabled = !flashLight.GetComponent<Light>().enabled;
+        }
     }
 
     /// <summary>

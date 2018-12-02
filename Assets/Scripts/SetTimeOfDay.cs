@@ -20,6 +20,7 @@ public class SetTimeOfDay : MonoBehaviour {
         if (HoursIntoDay >= 20)
         {
             RenderSettings.skybox = midnight;
+            GetComponent<Light>().enabled = false;
         }
         else if (HoursIntoDay >= 18)
         {
@@ -40,7 +41,14 @@ public class SetTimeOfDay : MonoBehaviour {
         else
         {
             RenderSettings.skybox = midnight;
+            GetComponent<Light>().enabled = false;
         }
+
+        //set angle of sun
+        transform.Rotate(Vector3.right, ((int)HoursIntoDay * 15));
+
+        //update light
+        DynamicGI.UpdateEnvironment();
     }
 
     // Update is called once per frame
