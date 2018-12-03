@@ -30,18 +30,33 @@ public class SoilLogic : MonoBehaviour {
 
         CurrentCrop = null;
 
-        if (WeatherController.IsRaining == true)
+        if (WeatherController.IsRaining)
         {
             IsWattered = true;
-            GetComponent<MeshRenderer>().material.color = Color.blue;
+            GetComponent<MeshRenderer>().material.color = new Color32(200, 200, 250, 0);
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (CurrentCrop != null)
+        if (CurrentCrop != null && CurrentCrop.Age < CurrentCrop.GrowTime)
         {
-            CropObject.transform.localScale += new Vector3(0.1f,0.1f,0.1f);
+            float GrowRate;
+
+            if (IsWattered)
+            {
+                CurrentCrop.Age += 2;
+                GrowRate = (float)(4 / CurrentCrop.GrowTime);
+            }
+            else
+            {
+                CurrentCrop.Age++;
+                GrowRate = (float)(2 / CurrentCrop.GrowTime);
+            }
+            
+            Vector3 GrowVector = new Vector3(GrowRate,GrowRate,GrowRate);
+
+            CropObject.transform.localScale += GrowVector;
         }
 	}
 
@@ -57,30 +72,35 @@ public class SoilLogic : MonoBehaviour {
             case Tool.HOE:
                 if (!IsTilled)
                 {
-                    IsTilled = true;
-                    GetComponent<MeshRenderer>().material = tilled;
+                    SoilTilled();
                 }
                 break;
             case Tool.WATTERCAN:
                 IsWattered = true;
-                GetComponent<MeshRenderer>().material.color = Color.blue;
+                GetComponent<MeshRenderer>().material.color = new Color32(200,200,250,0);
                 break;
             case Tool.TRIMMER:
+                if (CurrentCrop.Age >= CurrentCrop.GrowTime)
+                {
+                    CashTracker.Money += CurrentCrop.Value;
+
+                    SoilDestroyed();
+
+                    if (WeatherController.IsRaining)
+                    {
+                        IsWattered = true;
+                    }
+                }
                 break;
             case Tool.SHOVEL:
-                CurrentCrop = null;
-                Destroy(CropObject);
-                CropObject = null;
-
-                IsTilled = false;
-                GetComponent<MeshRenderer>().material = raw;
+                SoilDestroyed();
                 break;
             case Tool.CARROT:
                 if (IsTilled && CurrentCrop == null)
                 {
                     CurrentCrop = new Crop()
                     {
-                        GrowTime = 30,
+                        GrowTime = 4320,
                         Age = 0,
                         Value = 10,
                         Material = CarrotMaterial,
@@ -91,6 +111,7 @@ public class SoilLogic : MonoBehaviour {
 
                     CropObject.GetComponent<MeshFilter>().mesh = CarrotMesh;
                     CropObject.GetComponent<MeshRenderer>().material = CarrotMaterial;
+                    CropObject.transform.position += new Vector3(0.0f, -0.2f, 0.0f);
                 }
                 break;
             case Tool.PUMPKIN:
@@ -98,9 +119,9 @@ public class SoilLogic : MonoBehaviour {
                 {
                     CurrentCrop = new Crop()
                     {
-                        GrowTime = 120,
+                        GrowTime = 17280,
                         Age = 0,
-                        Value = 10,
+                        Value = 90,
                         Material = PumpkinMaterial,
                         Mesh = PumpkinMesh
                     };
@@ -116,9 +137,9 @@ public class SoilLogic : MonoBehaviour {
                 {
                     CurrentCrop = new Crop()
                     {
-                        GrowTime = 60,
+                        GrowTime = 8640,
                         Age = 0,
-                        Value = 10,
+                        Value = 30,
                         Material = LettuceMaterial,
                         Mesh = LettuceMesh
                     };
@@ -143,5 +164,29 @@ public class SoilLogic : MonoBehaviour {
 
         CropObject.transform.position = transform.position;
         CropObject.transform.position += new Vector3(0.0f,0.2f,0.0f);
+    }
+
+    void SoilTilled()
+    {
+        IsTilled = true;
+        GetComponent<MeshRenderer>().material = tilled;
+        if (IsWattered)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color32(200, 200, 250, 0);
+        }
+    }
+
+    void SoilDestroyed()
+    {
+        CurrentCrop = null;
+        Destroy(CropObject);
+        CropObject = null;
+
+        IsTilled = false;
+        GetComponent<MeshRenderer>().material = raw;
+        if (IsWattered)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color32(200, 200, 250, 0);
+        }
     }
 }
