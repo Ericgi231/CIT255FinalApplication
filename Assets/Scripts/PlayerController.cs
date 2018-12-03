@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Models;
 
 public class PlayerController : MonoBehaviour {
 
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 
     public Texture2D crosshairImage;
 
+    public static Tool CurrentTool;
+
     // Use this for initialization
     void Start() {
         //lock cursor
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 
         //set character to controll
         cc = GetComponent<CharacterController>();
+        
     }
 
     // Update is called once per frame

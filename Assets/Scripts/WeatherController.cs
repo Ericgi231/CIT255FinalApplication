@@ -8,6 +8,7 @@ using System.Net;
 public class WeatherController : MonoBehaviour {
 
     public WeatherData WeatherData;
+    public static bool IsRaining;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +18,7 @@ public class WeatherController : MonoBehaviour {
         if (WeatherData.Weather[0].Main == "Rain")
         {
             GameObject rain = (GameObject)Instantiate(Resources.Load("RainPrefab")); ;
+            IsRaining = true;
         }
     }
 
