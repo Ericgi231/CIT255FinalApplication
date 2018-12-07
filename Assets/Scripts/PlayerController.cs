@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         //lock cursor
         Cursor.lockState = CursorLockMode.Locked;
-
+        
         //set character to controll
         cc = GetComponent<CharacterController>();
     }

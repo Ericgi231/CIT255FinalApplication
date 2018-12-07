@@ -3,7 +3,15 @@ guid: 050f90776c39a6244be2f988990f6721
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - raw: {fileID: 2100000, guid: 59ad0e2779230ac49aa1ccb0d2a7b19f, type: 2}
+  - tilled: {fileID: 2100000, guid: 0a27a8fe454bfea4b93d0d35e905ceb1, type: 2}
+  - CarrotMesh: {fileID: 4300002, guid: 655ab6936900b3b4ebd3a6267d23b347, type: 3}
+  - PumpkinMesh: {fileID: 4300000, guid: c010198ef707454408273c269ff945c2, type: 3}
+  - LettuceMesh: {fileID: 4300000, guid: e76898933ce05ea4da8af65536ca938f, type: 3}
+  - CarrotMaterial: {fileID: 2100000, guid: 0f718e8c060935a46af23fbc2a9c37f0, type: 2}
+  - PumpkinMaterial: {fileID: 2100000, guid: a27dcbc87b79037408e290c48d201fa8, type: 2}
+  - LettuceMaterial: {fileID: 2100000, guid: 2205354b8f0e9ca46bd84428c6b7c75f, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

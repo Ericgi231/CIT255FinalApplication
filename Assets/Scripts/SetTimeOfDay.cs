@@ -12,7 +12,7 @@ public class SetTimeOfDay : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        
         //get hours into day
         double HoursIntoDay = System.DateTime.Now.TimeOfDay.TotalHours;
 
