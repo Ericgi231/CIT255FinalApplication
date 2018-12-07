@@ -157,12 +157,81 @@ namespace Assets.Scripts.DataLayer
         {
             MySqlConnection con;
             string conString = ConnectionString.ConString;
+            FarmDataObject user = Data.FarmData[0];
 
             try
             {
+                //save user
                 con = new MySqlConnection();
                 con.ConnectionString = conString;
                 con.Open();
+
+                string sql = "INSERT INTO USERS(UserName, Pass, Score, LastSave) VALUES (@name, @pass, @score, @save)";
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@name", user.UserName);
+                cmd.Parameters.AddWithValue("@pass", user.Pass);
+                cmd.Parameters.AddWithValue("@score", user.Score);
+                cmd.Parameters.AddWithValue("@save", user.LastSave);
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+
+                //save land
+                sql = "";
+                cmd = new MySqlCommand(sql, con);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+                con.Dispose();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            con.Close();
+            con.Dispose();
+        }
+
+        public void DeleteById(int id)
+        {
+            MySqlConnection con;
+            string conString = ConnectionString.ConString;
+            FarmDataObject user = Data.FarmData[0];
+
+            try
+            {
+                //save user
+                con = new MySqlConnection();
+                con.ConnectionString = conString;
+                con.Open();
+
+                string sql = "INSERT INTO USERS(UserName, Pass, Score, LastSave) VALUES (@name, @pass, @score, @save)";
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@name", user.UserName);
+                cmd.Parameters.AddWithValue("@pass", user.Pass);
+                cmd.Parameters.AddWithValue("@score", user.Score);
+                cmd.Parameters.AddWithValue("@save", user.LastSave);
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+
+                //save land
+                sql = "";
+                cmd = new MySqlCommand(sql, con);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+                con.Dispose();
             }
             catch (Exception)
             {

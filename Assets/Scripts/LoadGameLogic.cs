@@ -9,13 +9,12 @@ public class LoadGameLogic : MonoBehaviour {
 	void Start () {
         if (ActiveData.PlayerData != null)
         {
-
+            CashTracker.Money = ActiveData.PlayerData.FarmData[0].Score;
         }
         else
         {
             print("Currently playing in offline mode. Data will not be saved.");
         }
-		
 	}
 	
 	// Update is called once per frame

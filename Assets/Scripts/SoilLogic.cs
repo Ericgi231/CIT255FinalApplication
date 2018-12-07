@@ -16,11 +16,13 @@ public class SoilLogic : MonoBehaviour {
     public Material PumpkinMaterial;
     public Material LettuceMaterial;
 
-    private bool IsWattered;
-    private bool IsTilled;
+    public bool IsWattered;
+    public bool IsTilled;
 
-    private Crop CurrentCrop;
-    private GameObject CropObject;
+    public Crop CurrentCrop;
+    public GameObject CropObject;
+
+    public int CropId;
 
 	// Use this for initialization
 	void Start () {

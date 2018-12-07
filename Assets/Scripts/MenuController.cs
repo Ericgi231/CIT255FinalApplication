@@ -5,6 +5,7 @@ using Assets.Scripts.DataLayer;
 using Assets.Scripts.Models;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class MenuController : MonoBehaviour {
 
@@ -19,7 +20,7 @@ public class MenuController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Play.onClick.AddListener(CheckAccount);
-        PlayOffline.onClick.AddListener(StartGame);
+        PlayOffline.onClick.AddListener(StartGameOffline);
 
         DataService = new MySqlDataService();
 
@@ -100,8 +101,29 @@ public class MenuController : MonoBehaviour {
         }
     }
 
+    void StartGameOffline()
+    {
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+    }
+
     void CreateUser()
     {
-        DataService.WriteAll(new DataContainer() { });
+        FarmDataObject UserData = new FarmDataObject()
+        {
+            UserName = Name.text,
+            Pass = Pass.text,
+            Score = 0,
+            LastSave = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        };
+
+        FarmDataObjectContainer UserDataContainer = new FarmDataObjectContainer();
+        UserDataContainer.Add(UserData);
+
+        DataContainer newUser = new DataContainer()
+        {
+            FarmData = UserDataContainer
+        };
+
+        DataService.WriteAll(newUser);
     }
 }

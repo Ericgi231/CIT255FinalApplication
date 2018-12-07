@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tool
   - MapTool
+  - Dirt
   layers:
   - Default
   - TransparentFX

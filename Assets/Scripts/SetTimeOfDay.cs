@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetTimeOfDay : MonoBehaviour {
+public class SetTimeOfDay : MonoBehaviour
+{
 
     public Material midday;
     public Material evening;
@@ -11,8 +12,9 @@ public class SetTimeOfDay : MonoBehaviour {
     public Material daybreak;
 
     // Use this for initialization
-    void Start () {
-        
+    void Start()
+    {
+
         //get hours into day
         double HoursIntoDay = System.DateTime.Now.TimeOfDay.TotalHours;
 
@@ -52,7 +54,8 @@ public class SetTimeOfDay : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update()
+    {
+
+    }
 }
