@@ -66,11 +66,15 @@ public class LoadGameLogic : MonoBehaviour {
                             float size = 2 + (props.CurrentCrop.Age / props.CurrentCrop.GrowTime);
                             Vector3 v = new Vector3(size,size,size);
                             props.CropObject.transform.localScale = v;
-                            props.CropObject.transform.position += new Vector3(0.0f, -0.12f, 0.0f);
                         }
                     }
                 }
-                
+
+                if (props.IsTilled)
+                {
+                    props.SoilTilled();
+                }
+
             }
         }
         else

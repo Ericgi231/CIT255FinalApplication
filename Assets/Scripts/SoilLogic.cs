@@ -168,7 +168,7 @@ public class SoilLogic : MonoBehaviour {
         CropObject.transform.position += new Vector3(0.0f,0.2f,0.0f);
     }
 
-    void SoilTilled()
+    public void SoilTilled()
     {
         IsTilled = true;
         GetComponent<MeshRenderer>().material = tilled;

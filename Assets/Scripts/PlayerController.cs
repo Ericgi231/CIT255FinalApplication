@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Models;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -29,7 +30,8 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         //lock cursor
         Cursor.lockState = CursorLockMode.Locked;
-        
+        Cursor.visible = false;
+
         //set character to controll
         cc = GetComponent<CharacterController>();
     }
@@ -39,6 +41,11 @@ public class PlayerController : MonoBehaviour {
         UpdateCameraDirection();
         UpdatePlayerPosition();
         ReadOtherPlayerInputs();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        }
     }
 
     /// <summary>
