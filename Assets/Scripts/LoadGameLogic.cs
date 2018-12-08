@@ -10,6 +10,8 @@ public class LoadGameLogic : MonoBehaviour {
         if (ActiveData.PlayerData != null)
         {
             CashTracker.Money = ActiveData.PlayerData.FarmData[0].Score;
+
+
         }
         else
         {

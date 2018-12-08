@@ -176,18 +176,57 @@ namespace Assets.Scripts.DataLayer
                 cmd.Parameters.AddWithValue("@save", user.LastSave);
                 cmd.ExecuteNonQuery();
 
-                con.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            con.Close();
+            con.Dispose();
+        }
 
-                //save land
-                sql = "";
-                cmd = new MySqlCommand(sql, con);
+        public void WriteById(int id, DataContainer Data)
+        {
+            MySqlConnection con;
+            string conString = ConnectionString.ConString;
+            FarmDataObject user = Data.FarmData[0];
+            SoilDataObjectContainer land = Data.SoilData;
+
+            try
+            {
+                //save user
+                con = new MySqlConnection();
+                con.ConnectionString = conString;
+                con.Open();
+
+                string sql = "INSERT INTO USERS(UserId, UserName, Pass, Score, LastSave) VALUES (@id, @name, @pass, @score, @save)";
+                MySqlCommand cmd = new MySqlCommand(sql, con);
 
                 cmd.Prepare();
-
+                cmd.Parameters.AddWithValue("@id", user.UserId);
+                cmd.Parameters.AddWithValue("@name", user.UserName);
+                cmd.Parameters.AddWithValue("@pass", user.Pass);
+                cmd.Parameters.AddWithValue("@score", user.Score);
+                cmd.Parameters.AddWithValue("@save", user.LastSave);
                 cmd.ExecuteNonQuery();
 
-                con.Close();
-                con.Dispose();
+                //save land
+                foreach (SoilDataObject soil in land)
+                {
+                    sql = "INSERT INTO LAND(OwnerId, LandId, IsTilled, GrowTime, Age, Value, Material, Mesh) VALUES (@ownerId, @landId, @isTilled, @growTime, @age, @value, @material, @mesh)";
+                    cmd = new MySqlCommand(sql, con);
+
+                    cmd.Prepare();
+                    cmd.Parameters.AddWithValue("@ownerId", soil.OwnerId);
+                    cmd.Parameters.AddWithValue("@landId", soil.LandId);
+                    cmd.Parameters.AddWithValue("@isTilled", soil.IsTilled);
+                    cmd.Parameters.AddWithValue("@growTime", soil.GrowTime);
+                    cmd.Parameters.AddWithValue("@age", soil.Age);
+                    cmd.Parameters.AddWithValue("@value", soil.Value);
+                    cmd.Parameters.AddWithValue("@material", soil.Material);
+                    cmd.Parameters.AddWithValue("@mesh", soil.Mesh);
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception)
             {
@@ -201,37 +240,36 @@ namespace Assets.Scripts.DataLayer
         {
             MySqlConnection con;
             string conString = ConnectionString.ConString;
-            FarmDataObject user = Data.FarmData[0];
 
             try
             {
-                //save user
+                //delete user
                 con = new MySqlConnection();
                 con.ConnectionString = conString;
                 con.Open();
 
-                string sql = "INSERT INTO USERS(UserName, Pass, Score, LastSave) VALUES (@name, @pass, @score, @save)";
+                string sql = "DELETE FROM USERS WHERE UserId = " + id ;
                 MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader rdr = cmd.ExecuteReader();
 
-                cmd.Prepare();
-                cmd.Parameters.AddWithValue("@name", user.UserName);
-                cmd.Parameters.AddWithValue("@pass", user.Pass);
-                cmd.Parameters.AddWithValue("@score", user.Score);
-                cmd.Parameters.AddWithValue("@save", user.LastSave);
-                cmd.ExecuteNonQuery();
+                while (rdr.Read())
+                {
 
-                con.Close();
+                }
 
-                //save land
-                sql = "";
+                rdr.Close();
+
+                //delete land
+                sql = "DELETE FROM LAND WHERE OwnerId = " + id;
                 cmd = new MySqlCommand(sql, con);
+                rdr = cmd.ExecuteReader();
 
-                cmd.Prepare();
+                while (rdr.Read())
+                {
 
-                cmd.ExecuteNonQuery();
+                }
 
-                con.Close();
-                con.Dispose();
+                rdr.Close();
             }
             catch (Exception)
             {

@@ -10,6 +10,7 @@ namespace Assets.Scripts.DataLayer
         DataContainer ReadAll();
         DataContainer ReadById(int id);
         void WriteAll(DataContainer Data);
+        void WriteById(int id, DataContainer Data);
         void DeleteById(int id);
     }
 }

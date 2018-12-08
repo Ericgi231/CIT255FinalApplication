@@ -19,35 +19,64 @@ public class SaveLogic : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        SoilDataObjectContainer dirts = new SoilDataObjectContainer();
-        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Dirt"))
+        if (ActiveData.PlayerData != null)
         {
-            SoilLogic props = gameObject.GetComponent<SoilLogic>();
-            SoilDataObject soilData = new SoilDataObject()
+            try
             {
-                OwnerId = ActiveData.PlayerData.FarmData[0].UserId,
-                LandId = props.CropId,
-                IsTilled = props.IsTilled,
-                GrowTime = props.CurrentCrop.GrowTime,
-                Age = props.CurrentCrop.Age,
-                Value = props.CurrentCrop.Value,
-                Material = props.CurrentCrop.Material.ToString(),
-                Mesh = props.CurrentCrop.Material.ToString()
-            };
-            dirts.Add(soilData);
+                SoilDataObjectContainer dirts = new SoilDataObjectContainer();
+                foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Dirt"))
+                {
+                    SoilLogic props = gameObject.GetComponent<SoilLogic>();
+                    if (props.CurrentCrop != null)
+                    {
+                        SoilDataObject soilData = new SoilDataObject()
+                        {
+                            OwnerId = ActiveData.PlayerData.FarmData[0].UserId,
+                            LandId = props.CropId,
+                            IsTilled = props.IsTilled,
+                            GrowTime = props.CurrentCrop.GrowTime,
+                            Age = props.CurrentCrop.Age,
+                            Value = props.CurrentCrop.Value,
+                            Material = props.CurrentCrop.Material.name,
+                            Mesh = props.CurrentCrop.Material.name
+                        };
+                        dirts.Add(soilData);
+                    }
+                    else if (props.IsTilled)
+                    {
+                        SoilDataObject soilData = new SoilDataObject()
+                        {
+                            OwnerId = ActiveData.PlayerData.FarmData[0].UserId,
+                            LandId = props.CropId,
+                            IsTilled = props.IsTilled
+                        };
+                        dirts.Add(soilData);
+                    }
+                }
+
+                ActiveData.PlayerData.FarmData[0].LastSave = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                ActiveData.PlayerData.FarmData[0].Score = (int)CashTracker.Money;
+
+                DataContainer data = new DataContainer()
+                {
+                    FarmData = ActiveData.PlayerData.FarmData,
+                    SoilData = dirts
+                };
+
+                IRepository dataLogic = new MySqlDataService();
+                dataLogic.DeleteById(ActiveData.PlayerData.FarmData[0].UserId);
+                dataLogic.WriteById(ActiveData.PlayerData.FarmData[0].UserId, data);
+
+                GameObject.Find("SaveText").GetComponent<TextMesh>().text = "SAVED!";
+            }
+            catch (Exception)
+            {
+                GameObject.Find("SaveText").GetComponent<TextMesh>().text = "FAIL!";
+            }
         }
-
-        ActiveData.PlayerData.FarmData[0].LastSave = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        ActiveData.PlayerData.FarmData[0].Score = (int)CashTracker.Money;
-
-        DataContainer data = new DataContainer()
+        else
         {
-            FarmData = ActiveData.PlayerData.FarmData,
-            SoilData = dirts
-        };
-
-        IRepository dataLogic = new MySqlDataService();
-        dataLogic.DeleteById(ActiveData.PlayerData.FarmData[0].UserId);
-        dataLogic.WriteAll(data);
+            GameObject.Find("SaveText").GetComponent<TextMesh>().text = "FAIL!";
+        }
     }
 }
