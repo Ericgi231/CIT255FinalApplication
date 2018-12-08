@@ -157,7 +157,7 @@ public class SoilLogic : MonoBehaviour {
         }
     }
 
-    void CreateCrop()
+    public void CreateCrop()
     {
         CropObject = new GameObject("Crop");
         CropObject.transform.parent = this.transform;

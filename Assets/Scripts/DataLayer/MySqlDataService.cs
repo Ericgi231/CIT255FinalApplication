@@ -124,13 +124,15 @@ namespace Assets.Scripts.DataLayer
                     {
                         OwnerId = (int)rd[0],
                         LandId = (int)rd[1],
-                        //IsTilled = (int)rd[2],
+                        IsTilled = (bool)rd[2],
                         GrowTime = (float)rd[3],
                         Age = (float)rd[4],
                         Value = (float)rd[5],
                         Material = rd[6].ToString(),
                         Mesh = rd[7].ToString(),
                     };
+
+                    
 
                     soilDataObjects.Add(soilData);
                 }

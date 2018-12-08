@@ -26,5 +26,6 @@ public class MapToolLogic : MonoBehaviour {
     {
         PlayerController.CurrentTool = ToolType;
         HeldTool.GetComponent<MeshFilter>().mesh = NewMesh;
+
     }
 }

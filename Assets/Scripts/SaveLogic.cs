@@ -78,5 +78,12 @@ public class SaveLogic : MonoBehaviour {
         {
             GameObject.Find("SaveText").GetComponent<TextMesh>().text = "FAIL!";
         }
+        StartCoroutine(ResetText());
+    }
+
+    IEnumerator ResetText()
+    {
+        yield return new WaitForSeconds(3);
+        GameObject.Find("SaveText").GetComponent<TextMesh>().text = "";
     }
 }
