@@ -24,7 +24,11 @@ public class WeatherController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            GameObject rain = (GameObject)Instantiate(Resources.Load("RainPrefab")); ;
+            IsRaining = true;
+        }
 	}
 
     WeatherData GetCurrentWeatherData()
