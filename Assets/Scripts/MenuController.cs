@@ -19,6 +19,9 @@ public class MenuController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         Play.onClick.AddListener(CheckAccount);
         PlayOffline.onClick.AddListener(StartGameOffline);
 
@@ -106,6 +109,8 @@ public class MenuController : MonoBehaviour {
 
     void StartGameOffline()
     {
+        ActiveData.PlayerData = null;
+        CashTracker.Money = 0;
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 

@@ -11,20 +11,36 @@ public class LoadGameLogic : MonoBehaviour {
 	void Start () {
         if (ActiveData.PlayerData != null)
         {
+            //set points
             CashTracker.Money = ActiveData.PlayerData.FarmData[0].Score;
 
+            //loop through each soil on the map
             foreach (GameObject soil in GameObject.FindGameObjectsWithTag("Dirt"))
             {
+                //assign props of soil to variable
                 SoilLogic props = soil.GetComponent<SoilLogic>();
-                props.CreateCrop();
 
+                //loop though each soil in the save file
                 foreach (SoilDataObject data in ActiveData.PlayerData.SoilData)
                 {
+                    //if selected soil equal selected soil in data
                     if (props.CropId == data.LandId)
                     {
+                        //check if soil is tilled
                         props.IsTilled = data.IsTilled;
+
+                        if (props.IsTilled)
+                        {
+                            props.SoilTilled();
+                        }
+
+                        // if crop is present in soil
                         if (data.GrowTime > 0)
                         {
+                            //create physical crop
+                            props.CreateCrop();
+
+                            //set props of crop
                             props.CurrentCrop = new Crop()
                             {
                                 GrowTime = data.GrowTime,
@@ -32,6 +48,7 @@ public class LoadGameLogic : MonoBehaviour {
                                 Value = data.Value
                             };
 
+                            //assign looks to pysical crop
                             switch (data.Material)
                             {
                                 case "carrot":
@@ -62,6 +79,10 @@ public class LoadGameLogic : MonoBehaviour {
                             TimeSpan timeOff = DateTime.Now - Convert.ToDateTime(ActiveData.PlayerData.FarmData[0].LastSave);
 
                             props.CurrentCrop.Age = props.CurrentCrop.Age + ((int)timeOff.TotalSeconds * 6);
+                            if (props.CurrentCrop.Age > props.CurrentCrop.GrowTime)
+                            {
+                                props.CurrentCrop.Age = props.CurrentCrop.GrowTime;
+                            }
 
                             float size = 2 + (props.CurrentCrop.Age / props.CurrentCrop.GrowTime);
                             Vector3 v = new Vector3(size,size,size);
@@ -69,12 +90,6 @@ public class LoadGameLogic : MonoBehaviour {
                         }
                     }
                 }
-
-                if (props.IsTilled)
-                {
-                    props.SoilTilled();
-                }
-
             }
         }
         else

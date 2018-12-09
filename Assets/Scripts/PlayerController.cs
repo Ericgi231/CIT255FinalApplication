@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour {
 
     public static Tool CurrentTool;
 
+    public Mesh hoeMesh;
+
     // Use this for initialization
     void Start() {
         //lock cursor
@@ -34,6 +36,10 @@ public class PlayerController : MonoBehaviour {
 
         //set character to controll
         cc = GetComponent<CharacterController>();
+
+        //set tool
+        CurrentTool = Tool.HOE;
+        GameObject.Find("HeldTool").GetComponent<MeshFilter>().mesh = hoeMesh;
     }
 
     // Update is called once per frame

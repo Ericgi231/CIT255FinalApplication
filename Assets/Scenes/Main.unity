@@ -6334,6 +6334,7 @@ MonoBehaviour:
   verticalRotationRange: 90
   jumpHeight: 4
   crosshairImage: {fileID: 2800000, guid: ab58fac8b5ff55340826a5bc1ab56de0, type: 3}
+  hoeMesh: {fileID: 4300000, guid: ad7d82ba4f8f58943805165f8dc31fa9, type: 3}
 --- !u!1 &1911077279
 GameObject:
   m_ObjectHideFlags: 0
