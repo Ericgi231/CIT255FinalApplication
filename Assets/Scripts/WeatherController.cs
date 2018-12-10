@@ -14,7 +14,6 @@ public class WeatherController : MonoBehaviour {
 	void Start () {
 
         WeatherData = GetCurrentWeatherData();
-
         if (WeatherData.Weather[0].Main == "Rain")
         {
             GameObject rain = (GameObject)Instantiate(Resources.Load("RainPrefab")); ;
@@ -42,7 +41,6 @@ public class WeatherController : MonoBehaviour {
         {
             weatherString = client.DownloadString(url);
         }
-
         weatherData = JsonConvert.DeserializeObject<WeatherData>(weatherString);
 
         return weatherData;

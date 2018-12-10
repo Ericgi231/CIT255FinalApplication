@@ -49,7 +49,7 @@ public class SetTimeOfDay : MonoBehaviour
         //set angle of sun
         transform.Rotate(Vector3.right, ((int)HoursIntoDay * 15));
 
-        //update light
+        //Update light
         DynamicGI.UpdateEnvironment();
     }
 

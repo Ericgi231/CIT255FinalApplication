@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     /// <summary>
-    /// updates the direction the player is looking based on mouse input
+    /// Updates the direction the player is looking based on mouse input
     /// </summary>
     private void UpdateCameraDirection()
     {
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     /// <summary>
-    /// updates players physical location based on keyboard input
+    /// Updates players physical location based on keyboard input
     /// </summary>
     private void UpdatePlayerPosition()
     {
